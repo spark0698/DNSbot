@@ -17,6 +17,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS users (
 @client.event
 async def on_ready():
     print("Bot is ready.")
+    print("test")
 
 @client.event
 async def on_member_join(member):
