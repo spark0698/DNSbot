@@ -17,7 +17,6 @@ c.execute("""CREATE TABLE IF NOT EXISTS users (
 @client.event
 async def on_ready():
     print("Bot is ready.")
-    print("test")
 
 @client.event
 async def on_member_join(member):
@@ -26,5 +25,9 @@ async def on_member_join(member):
 @client.event
 async def on_member_remove(member):
     print(f"{member} has left the server")
+
+@client.command
+async def dns(ctx, flag, irl="NotSet", game, user="NotSet"):
+    
 
 client.run(config.token)
