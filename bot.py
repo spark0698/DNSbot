@@ -2,29 +2,30 @@ import config
 import discord
 from discord.ext import commands
 import sqlite3
+from commands import start_bot
 
-client = commands.Bot(command_prefix = "$")
+def initialize_bot_client():
+    client = commands.Bot(command_prefix = "$")
+    return client
 
-conn = sqlite3.connect('users.db')
+def initialize_db():
+    conn = sqlite3.connect(':memory:')
 
-c = conn.cursor()
+    c = conn.cursor()
 
-c.execute("""CREATE TABLE IF NOT EXISTS users (
-             irl,
-             discord
-             )""")
+    c.execute("""CREATE TABLE IF NOT EXISTS users (
+                 irl,
+                 game,
+                 username
+                 )""")
 
-@client.event
-async def on_ready():
-    print("Bot is ready.")
-    print("test")
+    return (conn, c)
 
-@client.event
-async def on_member_join(member):
-    print(f"{member} has joined the server")
+def main():
+    client = initialize_bot_client()
+    conn, c = initialize_db()
+    start_bot(client, conn, c)
+    client.run(config.token)
 
-@client.event
-async def on_member_remove(member):
-    print(f"{member} has left the server")
-
-client.run(config.token)
+if __name__ == '__main__':
+    main()
